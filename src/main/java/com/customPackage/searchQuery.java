@@ -61,7 +61,7 @@ public class searchQuery {
     }
 
     //Function to search the query from the dataBase
-    public static AggregateIterable<Document> searchQuery(String []param, mongoConnectAtlas mongoDB) {
+    public static AggregateIterable<Document> searchQuery(String []param,mongoConnectAtlas mongoDB) {
         //System.out.println("religion "+ param[0]);
         //System.out.println("category "+ param[1]);// 250000
         int num = Integer.parseInt(param[2]);
@@ -106,15 +106,18 @@ public class searchQuery {
 //        AggregateIterable<Document> aggregateIterable = mongoDB.MahaDBT.aggregate(
 //                List.of(
 //                        Aggregates.unwind("$Scholarships")));
-                return aggregateIterable;
+        return aggregateIterable;
 
     }
 
-    public static String[] printResultWeb(mongoConnectAtlas mogoDB, String []webparam)
+    public static String[][] printResultWeb(mongoConnectAtlas mogoDB, String []webparam)
     {
         AggregateIterable<Document> aggregateIterable = searchQuery(webparam,mogoDB);
         System.out.println("Search operation carride out");
-       // String []outputResults;
+        // String []outputResults;
+        String [][]result = new String[100][5];
+        int count = 0;
+
         String []element = null;
         for (Document document : aggregateIterable) {
             String scholarshipName = document.getString("Name");
@@ -138,15 +141,6 @@ public class searchQuery {
                     .get("Religion", Document.class)
                     .get("Schemes", Document.class)
                     .getInteger("ApplicationFees");
-            //             Document result = document.get("Scholarships",Document.class)
-//                    .get("Category", Document.class)
-//                    .get("Income", Document.class)
-//                    .get("Religion", Document.class);
-//                    //.get("Schemes", Document.class);
-
-
-            //Arrays sresult = (Arrays) result;
-            //String scholarshipName = result.getString("ScholarshipsName");
             System.out.println("Scholarship Name : "+ scholarshipName);
             System.out.println("Apply Link : "+ applyLink);
             System.out.println("Department Name : "+ department);
@@ -155,7 +149,14 @@ public class searchQuery {
             System.out.println(" ");
 
 
-          //  outputResults = new String[]{scholarshipName, applyLink, department, link};
+            result[count + 1][0] = scholarshipName;
+            result[count + 1][1] = applyLink;
+            result[count + 1][2] = department;
+            result[count + 1][3] = link;
+            result[count + 1][4] = Integer.toString(ApplicationFees);
+
+            count++;
+
             element = new String[]{scholarshipName, applyLink, department, link};
 
 //            for (Document scheme : sresult){
@@ -169,7 +170,18 @@ public class searchQuery {
 
             //System.out.println(document.toJson());
         }
-        return element;
+
+        result[0][0] = Integer.toString(count);
+
+//        System.out.println();
+//        System.out.println(result[0][0]);
+//        for(int i = 1;i<=count;i++){
+//            System.out.println(result[i][0]);
+//            System.out.println(result[i][2]);
+//        }
+
+
+        return result;
     }
 
     public static void printResult(mongoConnectAtlas mogoDB)
@@ -198,31 +210,13 @@ public class searchQuery {
                     .get("Religion", Document.class)
                     .get("Schemes", Document.class)
                     .getInteger("ApplicationFees");
-            //             Document result = document.get("Scholarships",Document.class)
-//                    .get("Category", Document.class)
-//                    .get("Income", Document.class)
-//                    .get("Religion", Document.class);
-//                    //.get("Schemes", Document.class);
 
-
-            //Arrays sresult = (Arrays) result;
-            //String scholarshipName = result.getString("ScholarshipsName");
             System.out.println("Scholarship Name : "+ scholarshipName);
             System.out.println("Apply Link : "+ applyLink);
             System.out.println("Department Name : "+ department);
             System.out.println("Eligibility link : "+ link);
             System.out.println("Applicition Fees : "+ ApplicationFees);
             System.out.println(" ");
-//            for (Document scheme : sresult){
-//                    String department = scheme.getString("Department");
-//                    String link = scheme.getString("Eligibility");
-//                    int ApplicationFees = scheme.getInteger("ApplicationFees");
-//                System.out.println("Department " + department);
-//                System.out.println("Eligibility " + link);
-//                System.out.println("ApplicationFees" + ApplicationFees);
-//            }
-
-            //System.out.println(document.toJson());
         }
     }
 
@@ -254,3 +248,24 @@ public class searchQuery {
 //
 //        Document document = collection.find(eq("day",17)).projection(include("model1.MondayModel.gtxdotdot.xdotdot")).first();
 //        Double embeddedField = document.get("model1", Document.class).get("MondayModel", Document.class).get("gtxdotdot", Document.class).getDouble("xdotdot")
+
+//             Document result = document.get("Scholarships",Document.class)
+//                    .get("Category", Document.class)
+//                    .get("Income", Document.class)
+//                    .get("Religion", Document.class);
+//                    //.get("Schemes", Document.class);
+
+
+//Arrays sresult = (Arrays) result;
+//String scholarshipName = result.getString("ScholarshipsName");
+
+//            for (Document scheme : sresult){
+//                    String department = scheme.getString("Department");
+//                    String link = scheme.getString("Eligibility");
+//                    int ApplicationFees = scheme.getInteger("ApplicationFees");
+//                System.out.println("Department " + department);
+//                System.out.println("Eligibility " + link);
+//                System.out.println("ApplicationFees" + ApplicationFees);
+//            }
+
+//System.out.println(document.toJson());

@@ -10,9 +10,9 @@ public class mongoConnectAtlas{
     public MongoCollection<Document> MahaDBT;
     public mongoConnectAtlas() {
         String connectionString = "mongodb+srv://ompatil07:TaLCKLU60aQCnkNk@scholarshipcluster.6fwqmwr.mongodb.net/?retryWrites=true&w=majority";
-
+        String connectionStringNew = "mongodb+srv://ompatil07:TaLCKLU60aQCnkNk@scholarshipcluster.6fwqmwr.mongodb.net/?retryWrites=true&w=majority";
         MongoClientSettings settings = MongoClientSettings.builder()
-                .applyConnectionString(new ConnectionString(connectionString))
+                .applyConnectionString(new ConnectionString(connectionStringNew))
                 .build();
         MongoClient mongoClient = MongoClients.create(settings);
         scholarship = mongoClient.getDatabase("scholarshipDB");
